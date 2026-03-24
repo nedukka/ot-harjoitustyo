@@ -5,3 +5,5 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle työkalu *tehtävien* hallin
 [laskarit](https://github.com/nedukka/ot-harjoitustyo/tree/main/laskarit)
 
 [vaatimusmäärittely](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
+
+[työaikakirjanpito](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/tyoaikakirjanpito.md)
