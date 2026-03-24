@@ -4,4 +4,4 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle työkalu *tehtävien* hallin
 
 [laskarit](https://github.com/nedukka/ot-harjoitustyo/tree/main/laskarit)
 
-[vaatimusmäärittely](https://github.com/nedukka/ot-harjoitustyo/dokumentaatio/vaatimusmaarittely.md)
+[vaatimusmäärittely](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
