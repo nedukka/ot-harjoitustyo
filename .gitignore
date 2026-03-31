@@ -5,4 +5,7 @@ __pycache__
 htmlcov
 
 data/database.sqlite
-data/test_database.sqlite
+data/test-database.sqlite
+
+.env
+.env.test
