@@ -6,6 +6,3 @@ htmlcov
 
 data/database.sqlite
 data/test-database.sqlite
-
-.env
-.env.test
