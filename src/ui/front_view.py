@@ -140,16 +140,16 @@ class MainView:
                     text="✓",
                     command=lambda t=task: self._complete_task(t.id)
                 ).pack(side="right", padx=5)
-            if not any(not t.completed for t in tasks):
-                tk.Label(
-                    self._task_area,
-                    text="Tällä tasolla ei ole näkyvissä tehtäviä. Vaihda motivaatiotasoa tai lisää uusia tehtäviä",
-                    bg="white",
-                    fg="gray",
-                    font=("Helvetica", 11, "italic"),
-                    wraplength=250,
-                    justify="center"
-                ).pack(pady=10)
+        if not any(not t.completed for t in tasks):
+            tk.Label(
+                self._task_area,
+                text="Tällä tasolla ei ole näkyvissä tehtäviä. Vaihda motivaatiotasoa tai lisää uusia tehtäviä",
+                bg="white",
+                fg="gray",
+                font=("Helvetica", 11, "italic"),
+                wraplength=250,
+                justify="center"
+            ).pack(pady=10)
 
 
     def _complete_task(self, task_id):
