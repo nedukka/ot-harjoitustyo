@@ -1,6 +1,6 @@
 from datetime import datetime
-from repositories.task_repository import TaskRepository
-from models.task import Task
+from src.repositories.task_repository import TaskRepository
+from src.models.task import Task
 
 class TaskService:
 
@@ -11,13 +11,13 @@ class TaskService:
  
         if not title.strip():
             raise ValueError("Title cannot be empty.")
-        if task_type not in ['BACKLOG', 'WEEKLY', 'WEEK_SPESIFIC']:
+        if task_type not in ['BACKLOG', 'WEEKLY', 'WEEK_SPECIFIC']:
             raise ValueError("Invalid task type")
 
-        current_week = get_current_week()
+        current_week = self.get_current_week()
 
         week_created = None
-        if task_type == 'WEEK_SPESIFIC':
+        if task_type == 'WEEK_SPECIFIC':
             week_created = current_week
 
         task = Task(
@@ -28,34 +28,40 @@ class TaskService:
             last_completed_week=None
         )
         return self.repository.create_task(task)
+    
+    def complete_task(self, task_id: int):
+        task = self.repository.find_task_by_id(task_id)
+        if not task:
+            raise ValueError("Task not found")
+
+        task.completed = True
+        task.last_completed_week = self.get_current_week()
+        self.repository.update_task(task)
  
     def get_tasks_by_motivation(self, motivation_level: str):
-        
+        if motivation_level not in ['LOW', 'MEDIUM', 'HIGH']:
+            raise ValueError("Invalid motivation level")
+
         tasks = self.repository.get_all_tasks()
-        current_week = get_current_week()
+        current_week = self.get_current_week()
 
         visible_tasks = []
         for task in tasks:
-            if task.task_type == 'WEEKLY':
-                if task.last_completed_week != current_week:
+            if task.task_type == 'WEEKLY' and task.last_completed_week != current_week:
                     task.completed = False
-            if task.task_type == 'WEEK_SPESIFIC':
-                if task.week_created != current_week:
+            if task.task_type == 'WEEK_SPECIFIC' and task.week_created != current_week:
                     continue
 
-            if motivation_level not in ['LOW', 'MEDIUM', 'HIGH']:
-                raise ValueError("Invalid motivation level")
-            
             if motivation_level == 'LOW':
-                if task.task_type == 'WEEK_SPESIFIC':
+                if task.task_type == 'WEEK_SPECIFIC':
                     visible_tasks.append(task)
             elif motivation_level == 'MEDIUM':
-                if task.task_type in ['WEEK_SPESIFIC', 'WEEKLY']:
+                if task.task_type in ['WEEK_SPECIFIC', 'WEEKLY']:
                     visible_tasks.append(task)
-            elif motivation_level == 'HIGH':
+            else:
                 visible_tasks.append(task)
 
         return visible_tasks
 
-def get_current_week():
-    return datetime.now().isocalendar()[1]
+    def get_current_week(self):
+        return datetime.now().isocalendar()[1]
