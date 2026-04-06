@@ -1,4 +1,4 @@
-from .database_connection import get_database_connection
+from src.database.database_connection import get_database_connection
 
 def drop_tables(connection):
     cursor = connection.cursor()
@@ -9,7 +9,7 @@ def create_tables(connection):
     cursor = connection.cursor()
     cursor.execute('''
         CREATE TABLE tasks (
-            id INTEFER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             task_type TEXT NOT NULL,
             completed INTEGER DEFAULT 0,
