@@ -7,7 +7,6 @@ class AddTaskView:
         self._root = root
         self._task_service = task_service
         self._refresh_callback = refresh_callback
-        
 
         self._overlay = tk.Frame(self._root, bg="#FFB4B4")
         self._overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
@@ -68,7 +67,13 @@ class AddTaskView:
             self._frame,
             text="Lisää",
             command=self._handle_add
-        ).grid(row=3, column=0, pady=10)
+        ).grid(row=3, column=0, pady=1)
+
+        ttk.Button(
+            self._frame,
+            text="Peruuta",
+            command=self._close
+        ).grid(row=4, column=0, pady=1)
 
     def _handle_add(self):
         title = self._entry.get()

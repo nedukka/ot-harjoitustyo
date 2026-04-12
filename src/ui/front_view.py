@@ -2,19 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font
 from src.ui.add_view import AddTaskView
+from src.ui.remove_view import RemoveTaskView
 
-class MainView:
-    def __init__(self, root, task_service):
-        self._root = root
+class MainView(tk.Frame):
+    def __init__(self, root, task_service, open_remove_view):
+        super().__init__(root)
         self._task_service = task_service
+        self._open_remove_view = open_remove_view
         self._motivation_level = "LOW"
 
-        self._root.configure(bg="black")
+        self.configure(bg="black")
 
-        self._main_container = tk.Frame(self._root, bg="black")
-        self._main_container.pack(fill="both", expand=True)
-
-        self._content = tk.Frame(self._main_container, bg="#E6D6F2")
+        self._content = tk.Frame(self, bg="#E6D6F2")
         self._content.pack(fill="both", expand=True, padx=10)
 
         self._normal_font = font.Font(family="Helvetica", size=12)
@@ -25,7 +24,10 @@ class MainView:
         self._refresh_tasks()
 
     def _open_add_task_popup(self):
-        AddTaskView(self._root, self._task_service, self._refresh_tasks)
+        AddTaskView(self, self._task_service, self._refresh_tasks)
+
+    def _open_remove_task_popup(self):
+        RemoveTaskView(self, self._task_service, self._refresh_tasks)
 
     def _build(self):
         self._content.columnconfigure(0, weight=1)
@@ -90,7 +92,13 @@ class MainView:
             self._content,
             text="Lisää tehtävä",
             command=self._open_add_task_popup
-        ).grid(row=4, column=0, pady=10)
+        ).grid(row=4, column=0, pady=6, sticky="w", padx=40)
+
+        ttk.Button(
+            self._content,
+            text="Poista ja hallitse",
+            command=self._open_remove_view
+        ).grid(row=4, column=0, sticky="e", padx=40)
 
     def _update_motivation_buttons(self):
         for level, button in self._motivation_buttons.items():
@@ -134,12 +142,18 @@ class MainView:
                 font=current_font
             ).pack(side="left", padx=5)
 
+            color = "#39005C" if task.task_type == "WEEK_SPECIFIC" else "#F321E5" if task.task_type == "WEEKLY" else "#FFB1B1"
             if not task.completed:
-                ttk.Button(
+                tk.Button(
                     frame,
                     text="✓",
+                    bg=color,
+                    fg="white",
+                    activebackground=color,
+                    relief="flat",
                     command=lambda t=task: self._complete_task(t.id)
                 ).pack(side="right", padx=5)
+
         if not any(not t.completed for t in tasks):
             tk.Label(
                 self._task_area,
@@ -151,8 +165,6 @@ class MainView:
                 justify="center"
             ).pack(pady=10)
 
-
     def _complete_task(self, task_id):
         self._task_service.complete_task(task_id)
         self._refresh_tasks()
-
