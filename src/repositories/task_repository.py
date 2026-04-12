@@ -11,7 +11,8 @@ class TaskRepository:
             INSERT INTO tasks (
                    title, task_type, completed, week_created, last_completed_week)
                     VALUES (?, ?, ?, ?, ?)
-        ''', (task.title, task.task_type, int(task.completed), task.week_created, task.last_completed_week))
+        ''',(task.title, task.task_type, int(task.completed),
+            task.week_created, task.last_completed_week))
         self.connection.commit()
 
         task.id = cursor.lastrowid
@@ -19,7 +20,7 @@ class TaskRepository:
 
     def row_to_task(self, row):
         return Task(
-            id=row['id'],
+            task_id=row['id'],
             title=row['title'],
             task_type=row['task_type'],
             completed=bool(row['completed']),
@@ -33,7 +34,7 @@ class TaskRepository:
         rows = cursor.fetchall()
 
         return [self.row_to_task(row) for row in rows]
-    
+
     def find_task_by_id(self, task_id: int):
         cursor = self.connection.cursor()
         cursor.execute('SELECT * FROM tasks WHERE id = ?', (task_id,))
@@ -42,12 +43,18 @@ class TaskRepository:
         if row is None:
             return None
         return self.row_to_task(row)
-    
+
     def update_task(self, task: Task):
         cursor = self.connection.cursor()
         cursor.execute('''
             UPDATE tasks
             SET title = ?, task_type = ?, completed = ?, week_created = ?, last_completed_week = ?
             WHERE id = ?
-        ''', (task.title, task.task_type, int(task.completed), task.week_created, task.last_completed_week, task.id))
+        ''',(task.title, task.task_type, int(task.completed),
+            task.week_created, task.last_completed_week, task.id))
+        self.connection.commit()
+
+    def delete_tasks_by_ids(self, task_ids: list):
+        cursor = self.connection.cursor()
+        cursor.executemany('DELETE FROM tasks WHERE id = ?', [(task_id,) for task_id in task_ids])
         self.connection.commit()
