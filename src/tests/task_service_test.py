@@ -81,10 +81,29 @@ class TestTaskService(unittest.TestCase):
         tasks = self.service.get_tasks_by_motivation("LOW")
         self.assertNotIn(weekly_task, tasks)
 
-
     def test_medium_motivation_does_not_show_backlog_tasks(self):
         backlog_task = self.service.add_task("Backlog Task", "BACKLOG")
         tasks = self.service.get_tasks_by_motivation("MEDIUM")
         self.assertNotIn(backlog_task, tasks)
 
-    
+    def test_completed_tasks_are_shown_if_completed_this_week(self):
+        task = self.service.add_task("Task to Complete", "WEEK_SPECIFIC")
+        self.service.complete_task(task.id)
+
+        tasks = self.service.get_tasks_by_motivation("HIGH")
+        task_ids = [t.id for t in tasks]
+        self.assertIn(task.id, task_ids)
+
+    def test_delete_tasks_with_valid_ids_deletes_tasks(self):
+        task1 = self.service.add_task("Task 1", "WEEKLY")
+        task2 = self.service.add_task("Task 2", "BACKLOG")
+
+        self.service.delete_tasks([task1.id, task2.id])
+
+        self.assertIsNone(self.repository.find_task_by_id(task1.id))
+        self.assertIsNone(self.repository.find_task_by_id(task2.id))
+
+    def test_delete_tasks_with_empty_id_list_does_nothing(self):
+        task = self.service.add_task("Task to Keep", "WEEKLY")
+        self.service.delete_tasks([])
+        self.assertIsNotNone(self.repository.find_task_by_id(task.id))
