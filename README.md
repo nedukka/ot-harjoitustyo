@@ -7,6 +7,7 @@ Sovelluksen tarkoituksena on tarjota käyttäjälle työkalu *tehtävien* hallin
 - [vaatimusmäärittely](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/vaatimusmaarittely.md)
 - [työaikakirjanpito](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/tyoaikakirjanpito.md)
 - [changelog](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/changelog.md)
+- [changelog](https://github.com/nedukka/ot-harjoitustyo/blob/main/dokumentaatio/arkkitehtuuri.md)
 
 ## Sovelluksen asennus
 
