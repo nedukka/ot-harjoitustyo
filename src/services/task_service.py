@@ -55,13 +55,15 @@ class TaskService:
             if task.task_type == "WEEK_SPECIFIC" and task.week_created != current_week:
                 continue
 
-            if motivation_level == "LOW" and task.task_type == "WEEK_SPECIFIC":
-                visible_tasks.append(task)
-            elif motivation_level == "MEDIUM" and task.task_type in [
-                "WEEK_SPECIFIC",
-                "WEEKLY",
-            ]:
-                visible_tasks.append(task)
+            if motivation_level == "LOW":
+                if task.task_type == "WEEK_SPECIFIC":
+                    visible_tasks.append(task)
+            elif motivation_level == "MEDIUM":
+                if task.task_type in [
+                    "WEEK_SPECIFIC",
+                    "WEEKLY",
+                ]:
+                    visible_tasks.append(task)
             else:
                 visible_tasks.append(task)
 
