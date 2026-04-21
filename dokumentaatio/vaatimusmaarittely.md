@@ -8,7 +8,7 @@ Sovelluksen tavoitteena on tarjota käyttäjälle vaihtoehto useiden tai liian p
 
 ### Nimimerkin luominen
 
-- Käyttäjä voi määrittää itselleen nimimerkin, jota käytetään sovelluksen käyttöliittymässä
+- Käyttäjä voi määrittää itselleen nimimerkin, jota käytetään sovelluksen käyttöliittymässä (tehty)
 
 ### Tehtävien lisääminen ja poistaminen  
 
@@ -35,9 +35,9 @@ Sovelluksen tavoitteena on tarjota käyttäjälle vaihtoehto useiden tai liian p
 ### Tehtävien merkitseminen suoritetuksi
 
 - Käyttäjä voi merkitä tehtävän suoritetuksi (tehty)
-- Suoritetun tehtävän käsittely riippuu tehtävätyypistä:
-  - ajaton ja viikkokohtainen ovat kertaluontoisia suorituksia ja poistuvat listalta kokonaan
-  - viikottainen poistuu kyseisen viikon osalta, mutta palautuu automaattisesti viikon vaihtuesssa
+- Suoritetun tehtävän käsittely riippuu tehtävätyypistä: (tehty)
+  - ajaton ja viikkokohtainen ovat kertaluontoisia suorituksia, jotka siirtyvät ensin kohtaan "Tehdyt" ja viikon lopuksi poistuvat kokonaan
+  - viikottainen siirtyy kyseisen viikon osalta "Tehdyt" kohtaan, mutta palautuu tehtävälistalle automaattisesti viikon vaihtuesssa
 
 ## Jatkokehitysideoita
 
