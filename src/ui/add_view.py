@@ -20,13 +20,22 @@ class AddTaskView:
             rely=0.5,
             anchor="center",
             width=300,
-            height=250
+            height=300
         )
 
         self._build()
 
     def _build(self):
         self._frame.columnconfigure(0, weight=1)
+        
+        self._error_label = tk.Label(
+            self._frame,
+            text="",
+            wraplength=250,
+            fg="red",
+            font=("Helvetica", 10)
+        )
+        self._error_label.grid(row=1, column=0, pady=5, sticky="ew")
 
         ttk.Label(
             self._frame,
@@ -35,12 +44,12 @@ class AddTaskView:
         ).grid(row=0, column=0, pady=10)
 
         self._entry = ttk.Entry(self._frame)
-        self._entry.grid(row=1, column=0, padx=20, sticky="ew")
+        self._entry.grid(row=2, column=0, padx=10, sticky="ew")
 
-        self._task_type = tk.StringVar(value="WEEK")
+        self._task_type = tk.StringVar()
 
         radio_frame = ttk.Frame(self._frame)
-        radio_frame.grid(row=2, column=0, pady=15)
+        radio_frame.grid(row=3, column=0, pady=15)
 
         ttk.Radiobutton(
             radio_frame,
@@ -67,13 +76,13 @@ class AddTaskView:
             self._frame,
             text="Lisää",
             command=self._handle_add
-        ).grid(row=3, column=0, pady=1)
+        ).grid(row=4, column=0, pady=1)
 
         ttk.Button(
             self._frame,
             text="Peruuta",
             command=self._close
-        ).grid(row=4, column=0, pady=1)
+        ).grid(row=5, column=0, pady=1)
 
     def _handle_add(self):
         title = self._entry.get()
@@ -81,10 +90,13 @@ class AddTaskView:
 
         try:
             self._task_service.add_task(title, task_type)
+            self._error_label.config(text="")
             self._refresh_callback()
             self._close()
         except ValueError:
-            print("Invalid input")
+            self._error_label.config(
+                text="Tehtävän nimi ei saa olla tyhjä ja tehtävätyypin valinta on pakollinen"
+            )
 
     def _close(self):
         self._frame.destroy()
