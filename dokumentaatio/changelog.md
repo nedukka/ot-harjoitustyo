@@ -15,3 +15,11 @@
 - Tehty TaskService testejä
 - Käyttäjä voi poistaa tekemättömiä tehtäviä
 - Toteutettu alustava luokka/pakkauskaavio
+
+## viikko5
+
+- Lisätty UserRepository-luokka
+- Lisätty UserService-luokka
+- Käyttäjä voi nyt lisätä itselleen nimimerkin, kun sovellus avataan ensimmäisen kerran
+- Lisätty testejä
+- Toteutettu sekvessikaavioita
