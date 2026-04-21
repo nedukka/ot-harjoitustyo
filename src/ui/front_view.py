@@ -5,9 +5,10 @@ from src.ui.add_view import AddTaskView
 from src.ui.remove_view import RemoveTaskView
 
 class MainView(tk.Frame):
-    def __init__(self, root, task_service, open_remove_view):
+    def __init__(self, root, task_service, user_service, open_remove_view):
         super().__init__(root)
         self._task_service = task_service
+        self._user_service = user_service
         self._open_remove_view = open_remove_view
         self._motivation_level = "LOW"
 
@@ -31,7 +32,7 @@ class MainView(tk.Frame):
 
     def _build(self):
         self._content.columnconfigure(0, weight=1)
-        self._content.rowconfigure(3, weight=1)
+        self._content.rowconfigure(4, weight=1)
 
         ttk.Label(
             self._content,
@@ -39,14 +40,25 @@ class MainView(tk.Frame):
             font=("Helvetica", 18)
         ).grid(row=0, column=0, pady=10)
 
+        user = self._user_service.get_current_user()
+        
+        user_frame = tk.Frame(self._content, bg="#E6D6F2", bd=1, relief="ridge")
+        user_frame.grid(row=1, column=0, sticky="ew", padx=40, pady=10)
+
+        ttk.Label(
+            user_frame,
+            text=f"Hei {user.nickname}",
+            font=("Helvetica", 12)
+        ).pack(pady=5)
+
         ttk.Label(
             self._content,
             text="Vaihda motivaatiotasoa:",
             font=("Helvetica", 12)
-        ).grid(row=1, column=0, pady=5)
+        ).grid(row=2, column=0, pady=5)
 
         button_frame = tk.Frame(self._content, bg="#E6D6F2")
-        button_frame.grid(row=2, column=0, sticky="ew", padx=40, pady=10)
+        button_frame.grid(row=3, column=0, sticky="ew", padx=40, pady=10)
 
         button_frame.columnconfigure((0, 1, 2), weight=1)
 
@@ -77,28 +89,28 @@ class MainView(tk.Frame):
         self._motivation_buttons["HIGH"].grid(row=0, column=2, sticky="ew", padx=3)        
 
         self._task_area = tk.Frame(self._content, bg="white")
-        self._task_area.grid(row=3, column=0, sticky="nsew", padx=40, pady=10)
+        self._task_area.grid(row=4, column=0, sticky="nsew", padx=40, pady=10)
 
         ttk.Label(
             self._content,
             text="Tehdyt",
             font=("Helvetica", 14)
-        ).grid(row=5, column=0, pady=10)
+        ).grid(row=6, column=0, pady=10)
 
         self._completed_area = tk.Frame(self._content, bg="white")
-        self._completed_area.grid(row=6, column=0, sticky="nsew", padx=40, pady=10)
+        self._completed_area.grid(row=7, column=0, sticky="nsew", padx=40, pady=10)
 
         ttk.Button(
             self._content,
             text="Lisää tehtävä",
             command=self._open_add_task_popup
-        ).grid(row=4, column=0, pady=6, sticky="w", padx=40)
+        ).grid(row=5, column=0, pady=6, sticky="w", padx=40)
 
         ttk.Button(
             self._content,
             text="Poista ja hallitse",
             command=self._open_remove_view
-        ).grid(row=4, column=0, sticky="e", padx=40)
+        ).grid(row=5, column=0, sticky="e", padx=40)
 
     def _update_motivation_buttons(self):
         for level, button in self._motivation_buttons.items():
