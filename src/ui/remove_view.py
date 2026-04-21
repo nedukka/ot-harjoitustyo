@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 class RemoveTaskView(tk.Frame):
     def __init__(self, root, task_service, go_back):
@@ -74,6 +75,13 @@ class RemoveTaskView(tk.Frame):
             ).pack(side="left", padx=5)
 
     def _delete_selected_tasks(self):
+        confirm = messagebox.askyesno(
+            "Vahvista poisto",
+            "Haluatko varmasti poistaa valitut tehtävät?"
+        )
+        if not confirm:
+            return
+        
         selected_ids = [task_id for var, task_id in self._variables if var.get()]
         self._task_service.delete_tasks(selected_ids)
         self._go_back()
